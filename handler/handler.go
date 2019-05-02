@@ -3,7 +3,7 @@ package handler
 import (
 	"net/http"
 
-	"github.com/emeralt/npm-registry/registry"
+	"github.com/emeralt/npm-package-registry/registry"
 	"github.com/gin-gonic/gin"
 )
 

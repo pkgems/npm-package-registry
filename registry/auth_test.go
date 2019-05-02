@@ -3,40 +3,43 @@ package registry
 import (
 	"testing"
 
-	"github.com/emeralt/npm-registry/adapter"
+	"github.com/emeralt/npm-package-registry/adapter"
 	"github.com/stretchr/testify/assert"
 )
 
-var (
-	core = Core{
-		database: adapter.NewDatabaseMemory{},
-	}
+func TestAuth(t *testing.T) {
+	var (
+		core = Core{
+			database: adapter.NewDatabaseMemory(),
+			storage:  adapter.NewStorageMemory(),
+		}
 
-	user = User{
-		Username: "tester@emeralt.org",
-		Password: "tester",
-	}
+		user = User{
+			Username: "tester@emeralt.org",
+			Password: "tester",
+		}
 
-	token string
-	err   error
-)
+		token string
+		err   error
+	)
 
-func TestCore_RegisterUser(t *testing.T) {
-	err := core.RegisterUser(user)
+	t.Run("RegisterUser", func(t *testing.T) {
+		err = core.RegisterUser(user)
 
-	assert.Nil(t, err)
-}
+		assert.Nil(t, err)
+	})
 
-func TestCore_LoginUser(t *testing.T) {
-	token, err = core.LoginUser(user)
+	t.Run("LoginUser", func(t *testing.T) {
+		token, err = core.LoginUser(user)
 
-	assert.Nil(t, err)
-	assert.NotNil(t, token)
-}
+		assert.Nil(t, err)
+		assert.NotNil(t, token)
+	})
 
-func TestCore_DecodeToken(t *testing.T) {
-	username, err := core.DecodeToken(token)
+	t.Run("DecodeToken", func(t *testing.T) {
+		username, err := core.DecodeToken(token)
 
-	assert.Nil(t, err)
-	assert.Equal(t, username, user.Username)
+		assert.Nil(t, err)
+		assert.Equal(t, username, user.Username)
+	})
 }

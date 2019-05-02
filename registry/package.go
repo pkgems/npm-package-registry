@@ -8,29 +8,30 @@ import (
 
 	"github.com/tidwall/gjson"
 	"github.com/tidwall/sjson"
+	"gopkg.in/go-playground/validator.v9"
 )
 
 type Version struct {
-	Version string
+	Name    string `json:"name"    validate:"required"`
+	Version string `json:"version" validate:"required"`
 }
 
 type Attachment struct {
-	Data string `json:"data"`
+	Data string `json:"data" validate:"required,base64"`
 }
 
 type Package struct {
-	Name   string `json:"name"`
-	Author string `json:"author"`
+	Name   string `json:"name"   validate:"required"`
+	Author string `json:"author" validate:""`
 
 	DistTags    map[string]string     `json:"dist-tags"`
-	Versions    map[string]Version    `json:"versions"`
-	Attachments map[string]Attachment `json:"_attachments"`
+	Versions    map[string]Version    `json:"versions"     validate:"required,gt=0"`
+	Attachments map[string]Attachment `json:"_attachments" validate:"required,gt=0"`
 }
 
 func getVersion(m map[string]Version) Version {
 	for _, v := range m {
 		return v
-		break
 	}
 
 	return Version{}
@@ -39,7 +40,6 @@ func getVersion(m map[string]Version) Version {
 func getAttachment(a map[string]Attachment) Attachment {
 	for _, a := range a {
 		return a
-		break
 	}
 
 	return Attachment{}
@@ -49,16 +49,17 @@ func getAttachment(a map[string]Attachment) Attachment {
 // if package exists or create a new package if it doesn't
 func (core Core) PublishPackage(newData string, user User, registryURL string) error {
 	// 1. unmarshal new data
-	// 2. if new data doesn't include version, return error
-	// 3. get existing data
-	// 4. if package doesn't exist, create new
-	// 5. unmarshal existing data
-	// 6. if version already exists, return error
-	// 7. update dist-tags
-	// 8. upload tarball
-	// 9. update version tarball url
-	// 10. add new version
-	// 11. save to database
+	// 2. validate new data
+	// 3. get new version
+	// 4. get existing data
+	// 5. if package doesn't exist, create new
+	// 6. unmarshal existing data
+	// 7. if version already exists, return error
+	// 8. update dist-tags
+	// 9. upload tarball
+	// 10. update version tarball url
+	// 11. add new version
+	// 12. save to database
 
 	var err error
 
@@ -69,36 +70,41 @@ func (core Core) PublishPackage(newData string, user User, registryURL string) e
 		return err
 	}
 
-	// 2. if new data doesn't include version, return error
-	var newVersion = getVersion(newPkg.Versions)
-	if newVersion.Version == "" {
-		return fmt.Errorf("missing version")
+	validate := validator.New()
+
+	// 2. validate new data
+	err = validate.Struct(newPkg)
+	if err != nil {
+		return err
 	}
 
-	// 3. get existing data
+	// 3. get new version
+	var newVersion = getVersion(newPkg.Versions)
+
+	// 4. get existing data
 	existingData, err := core.database.GetPackage(newPkg.Name)
 	if err != nil {
 		return err
 	}
 
-	// 4. if package doesn't exist, create new
+	// 5. if package doesn't exist, create new
 	if existingData == "" {
 		existingData = fmt.Sprintf(`{"name":"%s","author":"%s","versions":{}}`, newPkg.Name, user.Username)
 	}
 
-	// 5. unmarshal existing data
+	// 6. unmarshal existing data
 	var existingPkg Package
 	err = json.Unmarshal([]byte(existingData), &existingPkg)
 	if err != nil {
 		return err
 	}
 
-	// 6. if version already exists, return error
+	// 7. if version already exists, return error
 	if existingPkg.Versions[newVersion.Version].Version != "" {
 		return fmt.Errorf("version already exists")
 	}
 
-	// 7. update dist-tags
+	// 8. update dist-tags
 	for k, v := range newPkg.DistTags {
 		existingData, err = sjson.Set(existingData, "dist-tags."+k, v)
 		if err != nil {
@@ -106,7 +112,7 @@ func (core Core) PublishPackage(newData string, user User, registryURL string) e
 		}
 	}
 
-	// 8. upload tarball
+	// 9. upload tarball
 	var attachment = getAttachment(newPkg.Attachments)
 	buffer, err := base64.StdEncoding.DecodeString(attachment.Data)
 	if err != nil {
@@ -117,7 +123,7 @@ func (core Core) PublishPackage(newData string, user User, registryURL string) e
 		return err
 	}
 
-	// 9. update version tarball url
+	// 10. update version tarball url
 	var escapedVersionNumber = strings.ReplaceAll(newVersion.Version, `.`, `\.`)
 	newVersionData, err := sjson.Set(
 		gjson.Get(newData, "versions."+escapedVersionNumber).String(),
@@ -128,13 +134,13 @@ func (core Core) PublishPackage(newData string, user User, registryURL string) e
 		return err
 	}
 
-	// 10. add new version
+	// 11. add new version
 	existingData, err = sjson.SetRaw(existingData, "versions."+escapedVersionNumber, newVersionData)
 	if err != nil {
 		return err
 	}
 
-	// 11. save to database
+	// 12. save to database
 	return core.database.SetPackage(existingPkg.Name, existingData)
 }
 

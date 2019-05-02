@@ -4,9 +4,9 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/emeralt/npm-registry/adapter"
-	"github.com/emeralt/npm-registry/handler"
-	"github.com/emeralt/npm-registry/registry"
+	"github.com/emeralt/npm-package-registry/adapter"
+	"github.com/emeralt/npm-package-registry/handler"
+	"github.com/emeralt/npm-package-registry/registry"
 )
 
 func main() {
