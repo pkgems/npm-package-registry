@@ -29,6 +29,8 @@ type Package struct {
 	Attachments map[string]Attachment `json:"_attachments" validate:"required,gt=0"`
 }
 
+var validate = validator.New()
+
 func getVersion(m map[string]Version) Version {
 	for _, v := range m {
 		return v
@@ -69,8 +71,6 @@ func (core Core) PublishPackage(newData string, user User, registryURL string) e
 	if err != nil {
 		return err
 	}
-
-	validate := validator.New()
 
 	// 2. validate new data
 	err = validate.Struct(newPkg)
