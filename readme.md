@@ -9,7 +9,7 @@
   <a href="https://hub.docker.com/r/emeralt/npm-package-registry/builds">
     <img src="https://img.shields.io/docker/cloud/build/emeralt/npm-package-registry.svg" alt="CI Build">
   </a>
-  <a href="https://github.com/emeralt/npm-package-registry/blob/master/liscense">
+  <a href="https://github.com/emeralt/npm-package-registry/blob/master/license">
     <img src="https://img.shields.io/github/license/emeralt/npm-package-registry.svg" alt="Licence">
   </a>
 </div>
