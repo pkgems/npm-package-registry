@@ -10,6 +10,8 @@ require (
 	github.com/golang/protobuf v1.3.1 // indirect
 	github.com/leodido/go-urn v1.1.0 // indirect
 	github.com/mattn/go-isatty v0.0.7 // indirect
+	github.com/spf13/cobra v0.0.3
+	github.com/spf13/pflag v1.0.3 // indirect
 	github.com/stretchr/testify v1.3.0
 	github.com/tidwall/gjson v1.2.1
 	github.com/tidwall/match v1.0.1 // indirect
