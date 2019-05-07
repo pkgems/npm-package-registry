@@ -18,16 +18,34 @@ var rootCmd = &cobra.Command{
 	Run:   run,
 }
 
-func run(cmd *cobra.Command, args []string) {
-	// client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI("mongodb://localhost:27017"))
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
+// func run(cmd *cobra.Command, args []string) {
+// 	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI("mongodb://localhost:27017"))
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
 
+// 	core, err := registry.NewCore(registry.CoreConfig{
+// 		Database: adapter.NewDatabaseMongoDB(adapter.OptionsDatabaseMongoDB{
+// 			Collection: client.Database("pkgems").Collection("npm-package-registry"),
+// 		}),
+// 		Storage: adapter.NewStorageMongoDB(adapter.OptionsStorageMongoDB{
+// 			Collection: client.Database("pkgems").Collection("npm-package-registry"),
+// 		}),
+// 	})
+// 	if err != nil {
+// 		log.Fatal(err)
+// 	}
+
+// 	server := http.Server{
+// 		Handler: handler.Handler(core),
+// 		Addr:    "localhost:8080",
+// 	}
+
+// 	server.ListenAndServe()
+// }
+
+func run(cmd *cobra.Command, args []string) {
 	core, err := registry.NewCore(registry.CoreConfig{
-		// Database: adapter.NewDatabaseMongoDB(adapter.OptionsMongoDB{
-		// 	Collection: client.Database("pkgems").Collection("npm-package-registry"),
-		// }),
 		Database: adapter.NewDatabaseMemory(),
 		Storage:  adapter.NewStorageMemory(),
 	})

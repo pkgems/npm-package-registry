@@ -14,15 +14,24 @@ type DatabaseMongoDB struct {
 	collection *mongo.Collection
 }
 
-// OptionsMongoDB parameterizes DatabaseMongoDB
-type OptionsMongoDB struct {
+// OptionsDatabaseMongoDB parameterizes DatabaseMongoDB
+type OptionsDatabaseMongoDB struct {
 	Collection *mongo.Collection
 }
 
 // NewDatabaseMongoDB is used to initialize new DatabaseMongoDB
-func NewDatabaseMongoDB(options OptionsMongoDB) *DatabaseMongoDB {
+func NewDatabaseMongoDB(opts OptionsDatabaseMongoDB) *DatabaseMongoDB {
+	// create index on name to improve lookup performance
+	opts.Collection.Indexes().CreateOne(context.TODO(), mongo.IndexModel{
+		Keys: bson.M{"name": 1},
+		Options: &options.IndexOptions{
+			Unique:     &[]bool{true}[0],
+			Background: &[]bool{true}[0], // wtf, mongodb?
+		},
+	})
+
 	return &DatabaseMongoDB{
-		collection: options.Collection,
+		collection: opts.Collection,
 	}
 }
 
