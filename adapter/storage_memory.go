@@ -6,6 +6,9 @@ type StorageMemory struct {
 	data map[string][]byte
 }
 
+// OptionsStorageMemory parameterizes StorageMemory
+type OptionsStorageMemory struct{}
+
 // NewStorageMemory is used to initialize new StorageMemory
 func NewStorageMemory() *StorageMemory {
 	return &StorageMemory{

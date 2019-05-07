@@ -2,8 +2,11 @@ package cli
 
 import (
 	"fmt"
+	"log"
 	"os"
 )
+
+var logger = log.New(os.Stdout, "[NPR] ", 0)
 
 // Run starts the CLI
 func Run() {

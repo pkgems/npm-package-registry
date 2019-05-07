@@ -6,6 +6,9 @@ type DatabaseMemory struct {
 	data map[string]string
 }
 
+// OptionsDatabaseMemory parameterizes DatabaseMemory
+type OptionsDatabaseMemory struct{}
+
 // NewDatabaseMemory is used to initialize new DatabaseMemory
 func NewDatabaseMemory() *DatabaseMemory {
 	return &DatabaseMemory{
