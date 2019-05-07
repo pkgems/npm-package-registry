@@ -3,8 +3,8 @@ package handler
 import (
 	"net/http"
 
-	"github.com/pkgems/npm-package-registry/registry"
 	"github.com/gin-gonic/gin"
+	"github.com/pkgems/npm-package-registry/registry"
 )
 
 // Handler provides http interface for Registry
