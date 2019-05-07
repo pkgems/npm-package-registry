@@ -1,13 +1,10 @@
 package cli
 
 import (
-	"context"
 	"log"
 	"net/http"
 
 	"github.com/spf13/cobra"
-	"go.mongodb.org/mongo-driver/mongo"
-	"go.mongodb.org/mongo-driver/mongo/options"
 
 	"github.com/pkgems/npm-package-registry/adapter"
 	"github.com/pkgems/npm-package-registry/handler"
@@ -22,10 +19,10 @@ var rootCmd = &cobra.Command{
 }
 
 func run(cmd *cobra.Command, args []string) {
-	client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI("mongodb://localhost:27017"))
-	if err != nil {
-		log.Fatal(err)
-	}
+	// client, err := mongo.Connect(context.TODO(), options.Client().ApplyURI("mongodb://localhost:27017"))
+	// if err != nil {
+	// 	log.Fatal(err)
+	// }
 
 	core, err := registry.NewCore(registry.CoreConfig{
 		// Database: adapter.NewDatabaseMongoDB(adapter.OptionsMongoDB{
