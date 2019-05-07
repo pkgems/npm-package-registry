@@ -1,4 +1,4 @@
-module github.com/emeralt/npm-package-registry
+module github.com/pkgems/npm-package-registry
 
 go 1.12
 

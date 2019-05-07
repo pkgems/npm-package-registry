@@ -6,9 +6,9 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/emeralt/npm-package-registry/adapter"
-	"github.com/emeralt/npm-package-registry/handler"
-	"github.com/emeralt/npm-package-registry/registry"
+	"github.com/pkgems/npm-package-registry/adapter"
+	"github.com/pkgems/npm-package-registry/handler"
+	"github.com/pkgems/npm-package-registry/registry"
 )
 
 // start a server

@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/emeralt/npm-package-registry/registry"
+	"github.com/pkgems/npm-package-registry/registry"
 	"github.com/gin-gonic/gin"
 )
 

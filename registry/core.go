@@ -1,7 +1,7 @@
 package registry
 
 import (
-	"github.com/emeralt/npm-package-registry/adapter"
+	"github.com/pkgems/npm-package-registry/adapter"
 )
 
 // Core is used as the central manager of Registry activity. It is the primary point of

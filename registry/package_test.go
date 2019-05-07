@@ -11,7 +11,7 @@ func TestPackage(t *testing.T) {
 	for _, core := range MakeTestCores() {
 		var (
 			user = User{
-				Username: "tester@emeralt.org",
+				Username: "tester@pkgems.org",
 				Password: "tester",
 			}
 

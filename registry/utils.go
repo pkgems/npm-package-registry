@@ -1,6 +1,6 @@
 package registry
 
-import "github.com/emeralt/npm-package-registry/adapter"
+import "github.com/pkgems/npm-package-registry/adapter"
 
 // MakeTestCores is internal function used to make a range of cores
 // using all available database and storage adapters

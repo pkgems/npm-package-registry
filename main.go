@@ -1,6 +1,6 @@
 package main
 
-import "github.com/emeralt/npm-package-registry/cli"
+import "github.com/pkgems/npm-package-registry/cli"
 
 func main() {
 	cli.Run()
