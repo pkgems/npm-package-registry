@@ -63,6 +63,7 @@ Alternatively, binaries of different platforms can be found on [Releases](./) se
 
 ## Configuration
 Configuration can be managed either by CLI flags or environment variables.
+
 | Options              | Env                  | Default         | Description                           |
 | -------------------- | -------------------- | --------------- | ------------------------------------- |
 | `--listen <address>` | `NPR_LISTEN_ADDRESS` | `locahost:8080` | Address to listen                     |
