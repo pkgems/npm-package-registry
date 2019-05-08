@@ -1,3 +1,7 @@
+//
+// Package handler provides an HTTP handler for npm-package-registry (NPR).
+// See https://github.com/pkgems/npm-package-registry/ for more information about registry.
+//
 package handler
 
 import (

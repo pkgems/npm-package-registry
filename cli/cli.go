@@ -1,3 +1,7 @@
+//
+// Package cli provides command line interface for npm-package-registry (NPR).
+// See https://github.com/pkgems/npm-package-registry/ for more information about registry.
+//
 package cli
 
 import (
